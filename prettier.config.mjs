@@ -1,0 +1,33 @@
+/** @type {import("prettier").Config} */
+export default {
+  // --------------------------------------------------
+  // Core formatting
+  // --------------------------------------------------
+  printWidth: 90,
+  tabWidth: 2,
+  useTabs: false,
+  semi: false,
+  singleQuote: true,
+  trailingComma: 'es5',
+  bracketSpacing: true,
+  bracketSameLine: false,
+  arrowParens: 'avoid',
+
+  // --------------------------------------------------
+  // React / JSX
+  // --------------------------------------------------
+  jsxSingleQuote: false,
+
+  // --------------------------------------------------
+  // Line endings
+  // --------------------------------------------------
+  endOfLine: 'lf',
+
+  // --------------------------------------------------
+  // Tailwind CSS class sorting
+  // --------------------------------------------------
+  plugins: ['prettier-plugin-tailwindcss'],
+
+  // Helps Tailwind plugin understand your project
+  tailwindConfig: './tailwind.config.js'
+}
