@@ -28,6 +28,5 @@ export default {
   // --------------------------------------------------
   plugins: ['prettier-plugin-tailwindcss'],
 
-  // Helps Tailwind plugin understand your project
-  tailwindConfig: './tailwind.config.js'
+  tailwindConfig: './tailwind.config.ts',
 }
