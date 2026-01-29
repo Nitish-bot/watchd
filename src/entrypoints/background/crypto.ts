@@ -1,15 +1,20 @@
 import { createKeyPairFromPrivateKeyBytes } from '@solana/kit'
-import { mnemonicToSeed } from 'bip39'
-import { derivePath } from 'ed25519-hd-key'
+import { generateMnemonic, mnemonicToSeed } from 'bip39'
+import slip10 from 'micro-key-producer/slip10.js'
 import nacl from 'tweetnacl'
+
+export function getMnemonic() {
+  return generateMnemonic(128)
+}
 
 export async function deriveSolanaKeypair(mnemonic: string) {
   const seed = await mnemonicToSeed(mnemonic)
+  const root = slip10.fromMasterSeed(seed)
 
   const derivationPath = "m/44'/501'/0'/0'"
-  const derived = derivePath(derivationPath, seed.toString('hex')).key
+  const derived = root.derive(derivationPath)
 
-  const privateKey = nacl.sign.keyPair.fromSeed(derived)
+  const privateKey = nacl.sign.keyPair.fromSeed(derived.privateKey)
   const keypair = await createKeyPairFromPrivateKeyBytes(privateKey.secretKey)
 
   return keypair

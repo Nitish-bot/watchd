@@ -1,31 +1,39 @@
 import { Button } from '@/components/base/button/button'
+import { useLocation } from 'react-router-dom'
 
 export default function CreateWallet() {
+  const { state } = useLocation()
+  const mnemonic: string = state?.mnemonic
+
+  if (!mnemonic) {
+    return <div>Loading..</div>
+  }
+
+  const mnemonicArray: string[] = mnemonic.split(' ')
+
+  return <MnemonicGrid mnemonic={mnemonicArray} />
+}
+
+function MnemonicGrid({ mnemonic }: { mnemonic: string[] }) {
   return (
-    <div>
-      <MnemonicGrid />
-      <div></div>
+    <div className="grid grid-cols-3 grid-rows-4">
+      {mnemonic.map(word => {
+        return <MnemonicButton word={word} />
+      })}
     </div>
   )
 }
 
-function MnemonicGrid() {
+function MnemonicButton({ word }: { word: string }) {
   return (
-    <div className="grid-row-4 grid grid-cols-3 gap-4">
-      <Button size="sm" color="secondary" className="font-normal">
-        whispering
-      </Button>
-      <Button></Button>
-      <Button></Button>
-      <Button></Button>
-      <Button></Button>
-      <Button></Button>
-      <Button></Button>
-      <Button></Button>
-      <Button></Button>
-      <Button></Button>
-      <Button></Button>
-      <Button></Button>
-    </div>
+    <Button
+      color="secondary"
+      className="cursor-default text-sm font-normal"
+      onClick={() => {
+        navigator.clipboard.writeText(word)
+      }}
+    >
+      {word}
+    </Button>
   )
 }

@@ -1,8 +1,13 @@
 // what popup can ask background to do
-export type WalletRequest = {
-  id: string
-  type: 'CREATE_WALLET'
-}
+export type WalletRequest =
+  | {
+      id: string
+      type: 'CREATE_WALLET'
+    }
+  | {
+      id: string
+      type: 'CREATE_MNEMONIC'
+    }
 
 // what background sends back
 export type WalletResponse =

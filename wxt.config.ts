@@ -7,9 +7,14 @@ export default defineConfig({
   imports: false,
   modules: ['@wxt-dev/module-react'],
   manifest: {
+    name: 'Watchd',
     permissions: ['storage'],
   },
   vite: () => ({
     plugins: [tailwindcss()],
+    define: {
+      global: 'globalThis',
+      'process.env.NODE_ENV': '"production"',
+    },
   }),
 })

@@ -138,7 +138,7 @@ export const InputBase = ({
         ref={ref}
         placeholder={placeholder}
         className={cx(
-          'text-md text-primary outline-hidden placeholder:text-placeholder autofill:text-primary m-0 w-full bg-transparent ring-0 autofill:rounded-lg',
+          'text-primary outline-hidden placeholder:text-placeholder autofill:text-primary m-0 w-full bg-transparent ring-0 autofill:rounded-lg',
           isDisabled && 'text-disabled cursor-not-allowed',
           sizes[inputSize].root,
           context?.inputClassName,
