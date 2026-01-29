@@ -9,9 +9,8 @@ function App() {
   return (
     <Routes>
       <Route index element={<Unlock />}></Route>
-      <Route path="onboard" element={<Onboard />}>
-        <Route path="create" element={<CreateWallet />}></Route>
-      </Route>
+      <Route path="onboard" element={<Onboard />}></Route>
+      <Route path="onboard/create" element={<CreateWallet />}></Route>
       <Route path="home" element={<Home />}></Route>
     </Routes>
   )
