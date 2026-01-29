@@ -7,7 +7,7 @@ export default function Onboard() {
   const navigate = useNavigate()
   const { request } = useBackground()
 
-  async function createWallet() {
+  async function onClick() {
     const mnemonic = await request<string>({
       type: 'CREATE_MNEMONIC',
     })
@@ -18,16 +18,16 @@ export default function Onboard() {
   }
 
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-16">
+    <main className="flex h-full flex-col items-center justify-center gap-32 p-8">
       <img src={logo} alt="logo" />
-      <div className="flex flex-col gap-4 font-thin">
-        <Button size="md" onClick={() => createWallet()} className="px-16 font-medium">
+      <div className="flex w-full flex-col gap-4">
+        <Button size="lg" onClick={() => onClick()} className="font-medium">
           Create wallet
         </Button>
-        <Button size="md" className="px-16 font-medium">
+        <Button size="lg" className="font-medium">
           Add wallet
         </Button>
       </div>
-    </div>
+    </main>
   )
 }
