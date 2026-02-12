@@ -3,7 +3,7 @@ import { generateMnemonic, mnemonicToSeed } from 'bip39'
 import slip10 from 'micro-key-producer/slip10.js'
 import nacl from 'tweetnacl'
 
-export function getMnemonic() {
+export function genMnemonic() {
   return generateMnemonic(128)
 }
 

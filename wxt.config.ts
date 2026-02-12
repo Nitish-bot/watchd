@@ -14,7 +14,6 @@ export default defineConfig({
     plugins: [tailwindcss()],
     define: {
       global: 'globalThis',
-      'process.env.NODE_ENV': '"production"',
     },
   }),
 })

@@ -1,26 +1,25 @@
 // what popup can ask background to do
-export type WalletRequest =
-  | {
-      id: string
-      type: 'CREATE_WALLET'
-    }
-  | {
-      id: string
-      type: 'CREATE_MNEMONIC'
-    }
+export type WalletRequest = {
+  id: string
+  type: string
+}
+
+type WalletPayloads = {
+  [MessageType.UNLOCK]: string
+  [MessageType.CREATE_MNEMONIC]: string
+  [MessageType.GET_TEMP_MNEMONIC]: string
+}
 
 // what background sends back
-export type WalletResponse =
-  | {
-      id: string
-      ok: true
-      result: {
-        publicKey: string
-        mnemonic: string
-      }
-    }
-  | {
-      id: string
-      ok: false
-      error: string
-    }
+export type WalletResponse<T extends MessageType> = {
+  id: string
+} & (
+  | { ok: true; result: WalletPayloads[T]; error: null }
+  | { ok: false; result: null; error: string }
+)
+
+export enum MessageType {
+  UNLOCK = 'UNLOCK',
+  CREATE_MNEMONIC = 'CREATE_MNEMONIC',
+  GET_TEMP_MNEMONIC = 'GET_TEMP_MNEMONIC',
+}

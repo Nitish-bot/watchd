@@ -8,7 +8,7 @@ import {
 } from 'react'
 
 import { browser, Browser } from '#imports'
-import { WalletRequest, WalletResponse } from '@/types/background-bridge'
+import { MessageType, WalletRequest, WalletResponse } from '@/types/background-bridge'
 
 type Pending = {
   resolve: (v: unknown) => void
@@ -31,7 +31,7 @@ export function BackgroundProvider({ children }: PropsWithChildren) {
     const port = browser.runtime.connect({ name: 'popup' })
     portRef.current = port
 
-    port.onMessage.addListener((msg: WalletResponse) => {
+    port.onMessage.addListener((msg: WalletResponse<MessageType>) => {
       const cb = pending.current.get(msg.id)
       if (!cb) return
 
@@ -64,8 +64,8 @@ export function BackgroundProvider({ children }: PropsWithChildren) {
       })
 
       portRef.current?.postMessage({
-        ...msg,
         id,
+        ...msg,
       })
     })
   }
