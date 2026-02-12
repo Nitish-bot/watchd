@@ -1,5 +1,6 @@
-import { browser } from '#imports'
 import * as Iron from 'iron-webcrypto'
+
+import { browser } from '#imports'
 
 export enum StorageKey {
   TEMP_PASS = 'temp_pass',

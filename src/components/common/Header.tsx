@@ -1,8 +1,10 @@
-import { cx } from '@/utils/cx'
-import { Sun, Moon01, UserCircle } from '@untitledui/icons'
 import { ComponentType } from 'react'
+
+import { Sun, Moon01, UserCircle } from '@untitledui/icons'
+
 import { Button } from '@/components/base/button/button'
 import { useTheme } from '@/providers/theme-provider'
+import { cx } from '@/utils/cx'
 
 type HeaderProps = {
   primaryText?: string

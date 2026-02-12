@@ -1,9 +1,12 @@
 'use client'
 
 import type { ReactNode, Ref } from 'react'
-import type { TextProps as AriaTextProps } from 'react-aria-components'
+
 import { Text as AriaText } from 'react-aria-components'
+
 import { cx } from '@/utils/cx'
+
+import type { TextProps as AriaTextProps } from 'react-aria-components'
 
 interface HintTextProps extends AriaTextProps {
   /** Indicates that the hint text is an error message. */

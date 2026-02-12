@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { Button } from '@/components/base/button/button'
+
 import logo from '@/assets/logo.svg'
-import { useBackground } from '@/providers/background-provider'
+import { Button } from '@/components/base/button/button'
 import Header from '@/components/common/Header'
+import { useBackground } from '@/providers/background-provider'
 import EmptyPlaceholder from '@/utils/emptyIcon'
 
 export default function Onboard() {

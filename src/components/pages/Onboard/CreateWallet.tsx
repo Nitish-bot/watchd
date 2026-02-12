@@ -1,13 +1,15 @@
+import { useEffect, useState } from 'react'
+
+import { Check, ChevronLeft, Copy01, ChevronRight } from '@untitledui/icons'
+import { useNavigate } from 'react-router-dom'
+
 import { Button } from '@/components/base/button/button'
 import Header from '@/components/common/Header'
+import Loading from '@/components/pages/Loading'
 import { useClipboard } from '@/hooks/use-clipboard'
 import { useBackground } from '@/providers/background-provider'
 import { MessageType } from '@/types/background-bridge'
 import { cx } from '@/utils/cx'
-import { Check, ChevronLeft, Copy01, ChevronRight } from '@untitledui/icons'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Loading from '@/components/pages/Loading'
 
 export default function CreateWallet() {
   const [mnemonic, setMnemonic] = useState('')

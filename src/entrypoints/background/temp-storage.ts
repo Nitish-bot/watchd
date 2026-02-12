@@ -1,5 +1,6 @@
-import { browser } from '#imports'
 import ncrypt from 'ncrypt-js'
+
+import { browser } from '#imports'
 
 type DataToEncrypt = string | number | boolean | object
 

@@ -1,6 +1,12 @@
 import { browser, Browser } from '#imports'
+
 import { genMnemonic } from '@/entrypoints/background/crypto'
-import { getStorageItem, removeStorageItem, setStorageItem, StorageKey } from './storage'
+import {
+  getStorageItem,
+  removeStorageItem,
+  setStorageItem,
+  StorageKey,
+} from '@/entrypoints/background/storage'
 import { MessageType, WalletRequest, WalletResponse } from '@/types/background-bridge'
 
 export async function handleDisconnect() {

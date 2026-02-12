@@ -1,12 +1,13 @@
 import '@/styles/tailwind.css'
-import Home from '@/components/pages/Home'
-import Onboard from '@/components/pages/Onboard/index'
-import Unlock from '@/components/pages/Unlock'
 import { Route, Routes } from 'react-router-dom'
+
+import Home from '@/components/pages/Home'
 import CreateWallet from '@/components/pages/Onboard/CreateWallet'
-import { useTheme } from '@/providers/theme-provider'
-import Verify from '@/components/pages/Onboard/Verify'
+import Onboard from '@/components/pages/Onboard/index'
 import SetupPassword from '@/components/pages/Onboard/SetupPassword'
+import Verify from '@/components/pages/Onboard/Verify'
+import Unlock from '@/components/pages/Unlock'
+import { useTheme } from '@/providers/theme-provider'
 
 function App() {
   const { theme, setTheme } = useTheme()

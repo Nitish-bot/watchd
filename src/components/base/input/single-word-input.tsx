@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Input } from './input'
+
+import { Input } from '@/components/base/input/input'
 
 export default function SingleWordInput() {
   const [value, setValue] = useState('')

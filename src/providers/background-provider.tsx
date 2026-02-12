@@ -8,6 +8,7 @@ import {
 } from 'react'
 
 import { browser, Browser } from '#imports'
+
 import { MessageType, WalletRequest, WalletResponse } from '@/types/background-bridge'
 
 type Pending = {

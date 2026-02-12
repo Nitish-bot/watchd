@@ -1,13 +1,15 @@
+import { useEffect, useState } from 'react'
+
+import { ChevronLeft, Fingerprint02 } from '@untitledui/icons'
+import { useNavigate } from 'react-router-dom'
+
 import { Button } from '@/components/base/button/button'
 import SingleWordInput from '@/components/base/input/single-word-input'
 import Header from '@/components/common/Header'
+import Loading from '@/components/pages/Loading'
 import { useBackground } from '@/providers/background-provider'
 import { MessageType } from '@/types/background-bridge'
 import { cx } from '@/utils/cx'
-import { ChevronLeft, Fingerprint02 } from '@untitledui/icons'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Loading from '../Loading'
 
 export default function Verify() {
   const [mnemonic, setMnemonic] = useState('')

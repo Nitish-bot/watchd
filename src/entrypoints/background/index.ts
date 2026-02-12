@@ -1,7 +1,9 @@
-import { browser, defineBackground } from '#imports'
 import { Buffer } from 'buffer'
-import { handleDisconnect, handleMessage } from './handlers'
-import { StorageKey } from './storage'
+
+import { browser, defineBackground } from '#imports'
+
+import { handleDisconnect, handleMessage } from '@/entrypoints/background/handlers'
+import { StorageKey } from '@/entrypoints/background/storage'
 
 globalThis.Buffer = Buffer
 
