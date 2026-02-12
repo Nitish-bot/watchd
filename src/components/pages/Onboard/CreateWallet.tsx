@@ -1,21 +1,31 @@
 import { Button } from '@/components/base/button/button'
 import Header from '@/components/common/Header'
 import { useClipboard } from '@/hooks/use-clipboard'
+import { useBackground } from '@/providers/background-provider'
+import { MessageType } from '@/types/background-bridge'
 import { cx } from '@/utils/cx'
 import { Check } from '@untitledui/icons'
 import { ChevronLeft, Copy01, Fingerprint04 } from '@untitledui/icons'
-import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function CreateWallet() {
-  const { state } = useLocation()
-  const mnemonic: string = state?.mnemonic
+  const [mnemonic, setMnemonic] = useState('')
+  const { request } = useBackground()
+
+  useEffect(() => {
+    request<string>({
+      type: MessageType.GET_TEMP_MNEMONIC,
+    })
+      .then(setMnemonic)
+      .catch(console.error)
+  }, [request])
 
   const { copy } = useClipboard()
   const navigate = useNavigate()
   const [showCopied, setShowCopied] = useState(false)
 
-  if (!mnemonic) {
+  if (mnemonic === '') {
     return <div>Loading..</div>
   }
 
@@ -30,9 +40,7 @@ export default function CreateWallet() {
   }
 
   const handleNext = () => {
-    navigate('/onboard/verify', {
-      state: { mnemonic },
-    })
+    navigate('/onboard/verify')
   }
 
   function ThisHeader() {

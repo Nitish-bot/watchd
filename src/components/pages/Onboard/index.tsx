@@ -10,13 +10,12 @@ export default function Onboard() {
   const { request } = useBackground()
 
   async function onClick() {
-    const mnemonic = await request<string>({
+    request<string>({
       type: 'CREATE_MNEMONIC',
     })
-    console.log(mnemonic)
-    navigate('/onboard/create', {
-      state: { mnemonic },
-    })
+      .then(console.log)
+      .catch(console.error)
+    navigate('/onboard/create')
   }
 
   return (

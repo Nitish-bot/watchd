@@ -8,13 +8,24 @@ export enum StorageKey {
 type EncryptableData = string | number | boolean | object
 
 const internalPass = 'TEMPORARY_PASS'
+const options = {
+  ...Iron.defaults,
+  encryption: {
+    ...Iron.defaults.encryption,
+    minPasswordlength: 12,
+  },
+  integrity: {
+    ...Iron.defaults.integrity,
+    minPasswordlength: 12,
+  },
+}
 
 export async function setStorageItem<T extends EncryptableData>(
   key: StorageKey,
   value: T
 ): Promise<void> {
   try {
-    const encryptedData = Iron.seal(value, internalPass, Iron.defaults)
+    const encryptedData = await Iron.seal(value, internalPass, options)
     await browser.storage.local.set({
       [key]: encryptedData,
     })
@@ -28,9 +39,10 @@ export async function getStorageItem<T>(key: StorageKey): Promise<T | null> {
     const data = await browser.storage.local.get(key)
     const encryptedData = data[key]
     if (!encryptedData || !(typeof encryptedData == 'string')) {
+      console.error('data stored in local storage is not string')
       return null
     }
-    const decryptedData = Iron.unseal(encryptedData, internalPass, Iron.defaults)
+    const decryptedData = await Iron.unseal(encryptedData, internalPass, options)
     return decryptedData as T
   } catch (e) {
     console.error(`Error getting storage item ${key}: `, e)

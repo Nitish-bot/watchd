@@ -1,17 +1,28 @@
 import { Button } from '@/components/base/button/button'
 import SingleWordInput from '@/components/base/input/single-word-input'
 import Header from '@/components/common/Header'
+import { useBackground } from '@/providers/background-provider'
+import { MessageType } from '@/types/background-bridge'
 import { cx } from '@/utils/cx'
 import { ChevronLeft, Fingerprint04 } from '@untitledui/icons'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Verify() {
-  const { state } = useLocation()
-  const mnemonic: string = state?.mnemonic
+  const [mnemonic, setMnemonic] = useState('')
+  const { request } = useBackground()
+
+  useEffect(() => {
+    request<string>({
+      type: MessageType.GET_TEMP_MNEMONIC,
+    })
+      .then(setMnemonic)
+      .catch(console.error)
+  }, [request])
 
   const navigate = useNavigate()
 
-  if (!mnemonic) {
+  if (mnemonic === '') {
     return <div>Loading..</div>
   }
 
