@@ -4,8 +4,7 @@ import { useClipboard } from '@/hooks/use-clipboard'
 import { useBackground } from '@/providers/background-provider'
 import { MessageType } from '@/types/background-bridge'
 import { cx } from '@/utils/cx'
-import { Check } from '@untitledui/icons'
-import { ChevronLeft, Copy01, Fingerprint04 } from '@untitledui/icons'
+import { Check, ChevronLeft, Copy01, ChevronRight } from '@untitledui/icons'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -62,18 +61,21 @@ export default function CreateWallet() {
       )}
 
       <main className="flex flex-1 flex-col">
-        <div className="flex flex-1 flex-col items-center justify-center">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
           <MnemonicGrid mnemonic={mnemonicArray} className="w-full gap-2" />
+          <div className="text-primary flex text-sm font-normal">
+            <p>{mnemonicPrompt}</p>
+            <Button
+              iconLeading={Copy01}
+              isDisabled={showCopied}
+              onClick={handleCopy}
+              className="ml-4"
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-4">
-          <div className="text-primary text-sm font-normal">
-            <p>{mnemonicPrompt}</p>
-          </div>
           <div className="flex flex-col gap-2">
-            <Button iconLeading={Copy01} isDisabled={showCopied} onClick={handleCopy}>
-              Copy
-            </Button>
-            <Button iconLeading={Fingerprint04} onClick={handleNext}>
+            <Button iconTrailing={ChevronRight} onClick={handleNext}>
               Next
             </Button>
           </div>
@@ -101,7 +103,7 @@ function MnemonicGrid({
 
 function MnemonicButton({ word }: { word: string }) {
   return (
-    <Button color="secondary" className="cursor-default text-sm font-normal">
+    <Button color="secondary" className="cursor-default text-xs font-light">
       {word}
     </Button>
   )

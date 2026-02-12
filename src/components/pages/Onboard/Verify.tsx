@@ -4,7 +4,7 @@ import Header from '@/components/common/Header'
 import { useBackground } from '@/providers/background-provider'
 import { MessageType } from '@/types/background-bridge'
 import { cx } from '@/utils/cx'
-import { ChevronLeft, Fingerprint04 } from '@untitledui/icons'
+import { ChevronLeft, Fingerprint02 } from '@untitledui/icons'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -31,16 +31,12 @@ export default function Verify() {
     'Please re-enter the mnemonic you copied on the last page to verify you have stored it safely.'
 
   const handleNext = () => {
-    navigate('/onboard/verify', {
-      state: { mnemonic },
-    })
+    navigate('/onboard/verify')
   }
 
   function ThisHeader() {
     function onClick() {
-      navigate('/onboard/create', {
-        state: { mnemonic },
-      })
+      navigate('/onboard/setupPassword')
     }
     return <Header icon={ChevronLeft} onClick={onClick} />
   }
@@ -50,16 +46,16 @@ export default function Verify() {
       <ThisHeader />
 
       <main className="flex flex-1 flex-col">
-        <div className="flex flex-1 flex-col items-center justify-center">
-          <MnemonicGrid mnemonic={mnemonicArray} className="Verify-full gap-2" />
-        </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+          <MnemonicGrid mnemonic={mnemonicArray} className="w-full gap-2" />
           <div className="text-primary text-sm font-normal">
             <p>{verifyPrompt}</p>
           </div>
+        </div>
+        <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <Button iconLeading={Fingerprint04} onClick={handleNext}>
-              Next
+            <Button iconTrailing={Fingerprint02} onClick={handleNext}>
+              Verify
             </Button>
           </div>
         </div>
