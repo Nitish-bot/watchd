@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import CreateWallet from '@/components/pages/Onboard/CreateWallet'
 import { useTheme } from '@/providers/theme-provider'
 import Verify from '@/components/pages/Onboard/Verify'
+import SetupPassword from '@/components/pages/Onboard/SetupPassword'
 
 function App() {
   const { theme, setTheme } = useTheme()
@@ -20,6 +21,7 @@ function App() {
         <Route path="onboard" element={<Onboard />}></Route>
         <Route path="onboard/create" element={<CreateWallet />}></Route>
         <Route path="onboard/verify" element={<Verify />}></Route>
+        <Route path="onboard/setupPassword" element={<SetupPassword />}></Route>
         <Route path="home" element={<Home />}></Route>
       </Routes>
     </div>

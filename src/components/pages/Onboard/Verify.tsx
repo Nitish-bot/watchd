@@ -7,6 +7,7 @@ import { cx } from '@/utils/cx'
 import { ChevronLeft, Fingerprint02 } from '@untitledui/icons'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Loading from '../Loading'
 
 export default function Verify() {
   const [mnemonic, setMnemonic] = useState('')
@@ -23,7 +24,7 @@ export default function Verify() {
   const navigate = useNavigate()
 
   if (mnemonic === '') {
-    return <div>Loading..</div>
+    return <Loading />
   }
 
   const mnemonicArray: string[] = mnemonic.split(' ')
@@ -31,12 +32,12 @@ export default function Verify() {
     'Please re-enter the mnemonic you copied on the last page to verify you have stored it safely.'
 
   const handleNext = () => {
-    navigate('/onboard/verify')
+    navigate('/onboard/setupPassword')
   }
 
   function ThisHeader() {
     function onClick() {
-      navigate('/onboard/setupPassword')
+      navigate('/onboard/create')
     }
     return <Header icon={ChevronLeft} onClick={onClick} />
   }

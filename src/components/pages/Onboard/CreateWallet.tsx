@@ -7,6 +7,7 @@ import { cx } from '@/utils/cx'
 import { Check, ChevronLeft, Copy01, ChevronRight } from '@untitledui/icons'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Loading from '@/components/pages/Loading'
 
 export default function CreateWallet() {
   const [mnemonic, setMnemonic] = useState('')
@@ -25,7 +26,7 @@ export default function CreateWallet() {
   const [showCopied, setShowCopied] = useState(false)
 
   if (mnemonic === '') {
-    return <div>Loading..</div>
+    return <Loading />
   }
 
   const mnemonicArray: string[] = mnemonic.split(' ')

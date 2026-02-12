@@ -1,10 +1,11 @@
-import { Browser } from '#imports'
+import { browser, Browser } from '#imports'
 import { genMnemonic } from '@/entrypoints/background/crypto'
 import { getStorageItem, removeStorageItem, setStorageItem, StorageKey } from './storage'
 import { MessageType, WalletRequest, WalletResponse } from '@/types/background-bridge'
 
-export function handleDisconnect() {
-  removeStorageItem(StorageKey.TEMP_MNEMONIC)
+export async function handleDisconnect() {
+  await browser.storage.local.remove(StorageKey.TEMP_PASS as string)
+  await removeStorageItem(StorageKey.TEMP_MNEMONIC)
 }
 
 export async function handleMessage(message: WalletRequest, port: Browser.runtime.Port) {

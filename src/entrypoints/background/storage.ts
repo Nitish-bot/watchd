@@ -2,12 +2,12 @@ import { browser } from '#imports'
 import * as Iron from 'iron-webcrypto'
 
 export enum StorageKey {
+  TEMP_PASS = 'temp_pass',
   TEMP_MNEMONIC = 'temp_mnemonic',
 }
 
 type EncryptableData = string | number | boolean | object
 
-const internalPass = 'TEMPORARY_PASS'
 const options = {
   ...Iron.defaults,
   encryption: {
@@ -25,6 +25,9 @@ export async function setStorageItem<T extends EncryptableData>(
   value: T
 ): Promise<void> {
   try {
+    const internalPass = (await browser.storage.local.get(StorageKey.TEMP_PASS))[
+      StorageKey.TEMP_PASS
+    ] as string
     const encryptedData = await Iron.seal(value, internalPass, options)
     await browser.storage.local.set({
       [key]: encryptedData,
@@ -36,6 +39,9 @@ export async function setStorageItem<T extends EncryptableData>(
 
 export async function getStorageItem<T>(key: StorageKey): Promise<T | null> {
   try {
+    const internalPass = (await browser.storage.local.get(StorageKey.TEMP_PASS))[
+      StorageKey.TEMP_PASS
+    ] as string
     const data = await browser.storage.local.get(key)
     const encryptedData = data[key]
     if (!encryptedData || !(typeof encryptedData == 'string')) {
