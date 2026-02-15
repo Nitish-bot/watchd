@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/base/button/button'
 import Header from '@/components/common/Header'
-import Loading from '@/components/pages/Loading'
+import Loading from '@/components/pages/State/Loading'
 import { useClipboard } from '@/hooks/use-clipboard'
 import { useBackground } from '@/providers/background-provider'
 import { MessageType } from '@/types/background-bridge'
@@ -33,7 +33,7 @@ export default function CreateWallet() {
 
   const mnemonicArray: string[] = mnemonic.split(' ')
   const mnemonicPrompt =
-    'This mnemonic is the key to your wallet, make sure you write it down somewhere safe.'
+    'This mnemonic is the key to your wallet, make sure to write it down somewhere.'
 
   const handleCopy = () => {
     copy(mnemonic)
@@ -75,13 +75,13 @@ export default function CreateWallet() {
               className="ml-4"
             />
           </div>
-        </div>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Button iconTrailing={ChevronRight} onClick={handleNext}>
-              Next
-            </Button>
-          </div>
+          <Button
+            className="mt-4 w-full"
+            iconTrailing={ChevronRight}
+            onClick={handleNext}
+          >
+            Next
+          </Button>
         </div>
       </main>
     </div>

@@ -19,6 +19,7 @@ type Pending = {
 type Ctx = {
   request<T = unknown>(msg: Omit<WalletRequest, 'id'>): Promise<T>
   connected: boolean
+  disconnect(): void
 }
 
 const BackgroundContext = createContext<Ctx>(null!)
@@ -71,8 +72,12 @@ export function BackgroundProvider({ children }: PropsWithChildren) {
     })
   }
 
+  function disconnect() {
+    portRef.current?.disconnect()
+  }
+
   return (
-    <BackgroundContext.Provider value={{ request, connected }}>
+    <BackgroundContext.Provider value={{ request, connected, disconnect }}>
       {children}
     </BackgroundContext.Provider>
   )

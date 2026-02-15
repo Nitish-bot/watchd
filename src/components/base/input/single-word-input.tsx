@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import { Input } from '@/components/base/input/input'
+import { Input, InputProps } from '@/components/base/input/input'
 
-export default function SingleWordInput() {
+export default function SingleWordInput(props: InputProps) {
   const [value, setValue] = useState('')
 
   const handleChange = (value: string) => {
@@ -32,6 +32,7 @@ export default function SingleWordInput() {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         placeholder=""
+        {...props}
       />
     </div>
   )
