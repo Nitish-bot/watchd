@@ -21,7 +21,22 @@ import { cx } from '@/utils/cx'
 export default function Verify() {
   const [mnemonic, setMnemonic] = useState('')
   const { request } = useBackground()
-  const { control, handleSubmit, setValue } = useForm<MnemonicFormData>()
+  const { control, handleSubmit, setValue } = useForm<MnemonicFormData>({
+    defaultValues: {
+      word1: '',
+      word2: '',
+      word3: '',
+      word4: '',
+      word5: '',
+      word6: '',
+      word7: '',
+      word8: '',
+      word9: '',
+      word10: '',
+      word11: '',
+      word12: '',
+    },
+  })
 
   useEffect(() => {
     request<string>({
@@ -123,6 +138,7 @@ function MnemonicGrid({
             // @ts-expect-error we can ensure index is between 1 and 12
             name={`word${i + 1}`}
             control={control}
+            key={`word${i + 1}`}
             render={({ field }) => (
               <SingleWordInput
                 {...field}

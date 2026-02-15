@@ -5,6 +5,7 @@ import { browser } from '#imports'
 export enum StorageKey {
   TEMP_PASS = 'temp_pass',
   TEMP_MNEMONIC = 'temp_mnemonic',
+  USER_KEYPAIR = 'user_keypair',
 }
 
 type EncryptableData = string | number | boolean | object
@@ -23,13 +24,11 @@ const options = {
 
 export async function setStorageItem<T extends EncryptableData>(
   key: StorageKey,
-  value: T
+  value: T,
+  pass: string
 ): Promise<void> {
   try {
-    const internalPass = (await browser.storage.local.get(StorageKey.TEMP_PASS))[
-      StorageKey.TEMP_PASS
-    ] as string
-    const encryptedData = await Iron.seal(value, internalPass, options)
+    const encryptedData = await Iron.seal(value, pass, options)
     await browser.storage.local.set({
       [key]: encryptedData,
     })
@@ -38,23 +37,40 @@ export async function setStorageItem<T extends EncryptableData>(
   }
 }
 
-export async function getStorageItem<T>(key: StorageKey): Promise<T | null> {
+export async function getStorageItem<T>(
+  key: StorageKey,
+  pass: string
+): Promise<T | null> {
   try {
-    const internalPass = (await browser.storage.local.get(StorageKey.TEMP_PASS))[
-      StorageKey.TEMP_PASS
-    ] as string
     const data = await browser.storage.local.get(key)
     const encryptedData = data[key]
     if (!encryptedData || !(typeof encryptedData == 'string')) {
       console.error('data stored in local storage is not string')
       return null
     }
-    const decryptedData = await Iron.unseal(encryptedData, internalPass, options)
+    const decryptedData = await Iron.unseal(encryptedData, pass, options)
     return decryptedData as T
   } catch (e) {
     console.error(`Error getting storage item ${key}: `, e)
     return null
   }
+}
+
+export async function setStorageItemTemp<T extends EncryptableData>(
+  key: StorageKey,
+  value: T
+): Promise<void> {
+  const internalPass = (await browser.storage.local.get(StorageKey.TEMP_PASS))[
+    StorageKey.TEMP_PASS
+  ] as string
+  return setStorageItem<T>(key, value, internalPass)
+}
+
+export async function getStorageItemTemp<T>(key: StorageKey): Promise<T | null> {
+  const internalPass = (await browser.storage.local.get(StorageKey.TEMP_PASS))[
+    StorageKey.TEMP_PASS
+  ] as string
+  return getStorageItem(key, internalPass)
 }
 
 export async function removeStorageItem(key: StorageKey): Promise<void> {

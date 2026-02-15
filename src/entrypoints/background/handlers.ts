@@ -1,10 +1,11 @@
 import { browser, Browser } from '#imports'
 
-import { genMnemonic } from '@/entrypoints/background/crypto'
+import { deriveSolanaKeypair, genMnemonic } from '@/entrypoints/background/crypto'
 import {
-  getStorageItem,
+  getStorageItemTemp,
   removeStorageItem,
   setStorageItem,
+  setStorageItemTemp,
   StorageKey,
 } from '@/entrypoints/background/storage'
 import { MessageType, WalletRequest, WalletResponse } from '@/types/background-bridge'
@@ -15,7 +16,7 @@ export async function handleDisconnect() {
 }
 
 export async function handleMessage(message: WalletRequest, port: Browser.runtime.Port) {
-  const { id, type } = message
+  const { id, type, payload } = message
   switch (type) {
     case MessageType.UNLOCK: {
       const response: WalletResponse<MessageType.UNLOCK> = {
@@ -38,7 +39,7 @@ export async function handleMessage(message: WalletRequest, port: Browser.runtim
         error: null,
       }
 
-      await setStorageItem(StorageKey.TEMP_MNEMONIC, mnemonic).catch(() => {
+      await setStorageItemTemp(StorageKey.TEMP_MNEMONIC, mnemonic).catch(() => {
         response = {
           id: id,
           ok: false,
@@ -52,7 +53,7 @@ export async function handleMessage(message: WalletRequest, port: Browser.runtim
     }
 
     case MessageType.GET_TEMP_MNEMONIC: {
-      const mnemonic = await getStorageItem<string>(StorageKey.TEMP_MNEMONIC)
+      const mnemonic = await getStorageItemTemp<string>(StorageKey.TEMP_MNEMONIC)
       let response: WalletResponse<MessageType.GET_TEMP_MNEMONIC>
       if (!mnemonic) {
         response = {
@@ -70,6 +71,42 @@ export async function handleMessage(message: WalletRequest, port: Browser.runtim
         }
       }
 
+      port.postMessage(response)
+      break
+    }
+
+    case MessageType.SETUP_PASSWORD: {
+      const password = payload
+      if (!password) {
+        port.postMessage({
+          id: id,
+          ok: false,
+          result: null,
+          error: 'No password sent',
+        })
+        break
+      }
+
+      const mnemonic = await getStorageItemTemp<string>(StorageKey.TEMP_MNEMONIC)
+      if (!mnemonic) {
+        port.postMessage({
+          id: id,
+          ok: false,
+          result: null,
+          error: 'No temp mnemonic found',
+        })
+        break
+      }
+
+      const keyPair = await deriveSolanaKeypair(mnemonic)
+      await setStorageItem<CryptoKeyPair>(StorageKey.USER_KEYPAIR, keyPair, password)
+
+      const response = {
+        id: id,
+        ok: true,
+        result: keyPair.publicKey,
+        error: null,
+      }
       port.postMessage(response)
       break
     }

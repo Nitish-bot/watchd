@@ -98,7 +98,7 @@ function MnemonicGrid({
   return (
     <div className={cx('grid grid-cols-3 grid-rows-4', className)}>
       {mnemonic.map(word => {
-        return <MnemonicButton word={word} />
+        return <MnemonicButton word={word} key={word} />
       })}
     </div>
   )
