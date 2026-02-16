@@ -8,7 +8,12 @@ import {
   setStorageItemTemp,
   StorageKey,
 } from '@/entrypoints/background/storage'
-import { MessageType, WalletRequest, WalletResponse } from '@/types/background-bridge'
+import {
+  MessageType,
+  WalletRequest,
+  WalletResponse,
+  WalletSecrets,
+} from '@/types/background-bridge'
 
 export async function handleDisconnect() {
   await browser.storage.local.remove(StorageKey.TEMP_PASS as string)
@@ -98,13 +103,25 @@ export async function handleMessage(message: WalletRequest, port: Browser.runtim
         break
       }
 
-      const keyPair = await deriveSolanaKeypair(mnemonic)
-      await setStorageItem<CryptoKeyPair>(StorageKey.USER_KEYPAIR, keyPair, password)
+      const { derivationPath, publicKey, privateKey } =
+        await deriveSolanaKeypair(mnemonic)
+      const walletSecrets: WalletSecrets = {
+        mnemonic,
+        derivationPath,
+        privateKey,
+      }
+
+      await setStorageItem<string>(StorageKey.USER_PUBKEY, publicKey, password)
+      await setStorageItem<WalletSecrets>(
+        StorageKey.WALLET_SECRETS,
+        walletSecrets,
+        password
+      )
 
       const response = {
         id: id,
         ok: true,
-        result: keyPair.publicKey,
+        result: publicKey,
         error: null,
       }
       port.postMessage(response)

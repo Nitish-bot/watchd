@@ -26,3 +26,9 @@ export type WalletResponse<T extends MessageType> = {
   | { ok: true; result: WalletPayloads[T]; error: null }
   | { ok: false; result: null; error: string }
 )
+
+export type WalletSecrets = {
+  mnemonic: string
+  derivationPath: string
+  privateKey: string
+}

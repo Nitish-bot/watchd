@@ -5,7 +5,8 @@ import { browser } from '#imports'
 export enum StorageKey {
   TEMP_PASS = 'temp_pass',
   TEMP_MNEMONIC = 'temp_mnemonic',
-  USER_KEYPAIR = 'user_keypair',
+  USER_PUBKEY = 'user_pubkey',
+  WALLET_SECRETS = 'wallet_secrets',
 }
 
 type EncryptableData = string | number | boolean | object
@@ -14,11 +15,11 @@ const options = {
   ...Iron.defaults,
   encryption: {
     ...Iron.defaults.encryption,
-    minPasswordlength: 12,
+    minPasswordlength: 8,
   },
   integrity: {
     ...Iron.defaults.integrity,
-    minPasswordlength: 12,
+    minPasswordlength: 8,
   },
 }
 

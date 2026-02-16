@@ -1,7 +1,6 @@
-import { createKeyPairFromPrivateKeyBytes } from '@solana/kit'
+import { getBase58Decoder, createKeyPairFromPrivateKeyBytes } from '@solana/kit'
 import { generateMnemonic, mnemonicToSeed } from 'bip39'
 import slip10 from 'micro-key-producer/slip10.js'
-import nacl from 'tweetnacl'
 
 export function genMnemonic() {
   return generateMnemonic(128)
@@ -14,8 +13,18 @@ export async function deriveSolanaKeypair(mnemonic: string) {
   const derivationPath = "m/44'/501'/0'/0'"
   const derived = root.derive(derivationPath)
 
-  const privateKey = nacl.sign.keyPair.fromSeed(derived.privateKey)
-  const keypair = await createKeyPairFromPrivateKeyBytes(privateKey.secretKey)
+  const keypair = await createKeyPairFromPrivateKeyBytes(derived.privateKey, true)
+  const publicKeyBytes = await crypto.subtle.exportKey('raw', keypair.publicKey)
+  const publicKeyBuffer = new Uint8Array(publicKeyBytes)
 
-  return keypair
+  const decoder = getBase58Decoder()
+  const publicKey = decoder.decode(publicKeyBuffer)
+  const privateKey = decoder.decode(derived.privateKey)
+
+  return {
+    seed,
+    derivationPath,
+    publicKey,
+    privateKey,
+  }
 }

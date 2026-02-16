@@ -1,4 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/base/button/button'
 import { Input } from '@/components/base/input/input'
@@ -16,16 +17,25 @@ export default function SetupPassword() {
       confirmPassword: '',
     },
   })
+  const navigate = useNavigate()
 
   const password = watch('password')
 
   const verificationMessage =
     'You have successfully verified your mnemonic, please setup a password to protect your wallet.'
 
-  const onSubmit: SubmitHandler<PasswordFormData> = data => {
-    const pubkey = request<CryptoKey>({
+  const onSubmit: SubmitHandler<PasswordFormData> = async data => {
+    const pubkey = await request<string>({
       type: MessageType.SETUP_PASSWORD,
       payload: data.password,
+    })
+
+    navigate('/success', {
+      state: {
+        redirect: '/',
+        message:
+          'You have successfully setup your password, please remember we can never help you recover it',
+      },
     })
 
     console.log(pubkey)
@@ -75,7 +85,7 @@ export default function SetupPassword() {
               />
             )}
           />
-          <Button>Setup password</Button>
+          <Button type="submit">Setup password</Button>
         </form>
       </main>
     </div>

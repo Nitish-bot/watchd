@@ -6,6 +6,7 @@ import CreateWallet from '@/components/pages/Onboard/CreateWallet'
 import Onboard from '@/components/pages/Onboard/index'
 import SetupPassword from '@/components/pages/Onboard/SetupPassword'
 import Verify from '@/components/pages/Onboard/Verify'
+import Success from '@/components/pages/State/Success'
 import Unlock from '@/components/pages/Unlock'
 import { useTheme } from '@/providers/theme-provider'
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="onboard/verify" element={<Verify />}></Route>
         <Route path="onboard/setupPassword" element={<SetupPassword />}></Route>
         <Route path="home" element={<Home />}></Route>
+        <Route path="success" element={<Success />}></Route>
       </Routes>
     </div>
   )
